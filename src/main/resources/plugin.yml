@@ -1,0 +1,14 @@
+name: BlueMapPlayerControl
+version: '${project.version}'
+main: com.technicjelle.bluemapplayercontrol.BlueMapPlayerControl
+api-version: 1.13
+depend:
+  - BlueMap
+author: TechnicJelle
+description: Adds player hiding functionality to BlueMap
+website: https://github.com/TechnicJelle/BlueMapPlayerControl
+commands:
+  bmpc:
+    usage: /bmpc
+    description: Toggles your own visibility on BlueMap
+    permission: bmpc.self.toggle
