@@ -104,6 +104,6 @@ public class BMPC implements CommandExecutor, TabCompleter {
 	}
 
 	private boolean othersAllowed(CommandSender sender) {
-		return sender.isOp() || sender.hasPermission("bmpc.other");
+		return sender.isOp() || sender.hasPermission("bmpc.others");
 	}
 }
