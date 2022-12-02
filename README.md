@@ -12,7 +12,7 @@ Simple [Paper](https://papermc.io/) plugin that allows you to show/hide players 
 | `/bmpc show [player]` | Shows any player's visibility                  | `bmpc.others.show` (OP)   |
 | `/bmpc hide [player]` | Hides any player's visibility                  | `bmpc.others.hide` (OP)   |
 
-## [Click here to download!](../../releases/latest)
+## [Click here to download!](../../releases/latest)
 
 ## Support
 
