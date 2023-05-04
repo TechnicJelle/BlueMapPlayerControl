@@ -9,7 +9,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class BMPC implements CommandExecutor, TabCompleter {
 
@@ -41,6 +43,11 @@ public class BMPC implements CommandExecutor, TabCompleter {
 						hideSelf(api, sender, senderUUID);
 						return true;
 					}
+				}
+			} else {
+				if (args.length == 0) {
+					sender.sendMessage(ChatColor.RED + "You must be a player to hide yourself");
+					return true;
 				}
 			}
 
@@ -110,6 +117,11 @@ public class BMPC implements CommandExecutor, TabCompleter {
 		if (args.length == 1) {
 			completions.add("show");
 			completions.add("hide");
+			if (othersAllowed(sender)) {
+				for (Player player : sender.getServer().getOnlinePlayers()) {
+					completions.add(player.getName());
+				}
+			}
 		}
 		if (othersAllowed(sender)) {
 			if (sender.getServer().getPlayer(args[0]) == null
