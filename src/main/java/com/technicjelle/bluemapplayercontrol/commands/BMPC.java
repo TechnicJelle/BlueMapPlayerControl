@@ -22,21 +22,23 @@ public class BMPC implements CommandExecutor, TabCompleter {
 			BlueMapAPI api = BlueMapAPI.getInstance().get();
 
 			// === SELF ===
-			if(sender instanceof Player) { // only players can self
+			if (sender instanceof Player) { // only players can self
 				UUID senderUUID = sender.getServer().getPlayerUniqueId(sender.getName());
 				if (args.length == 0) {
-					//TODO: Toggle self
-					sender.sendMessage(ChatColor.YELLOW + "This command is not yet implemented. Please specify show/hide");
+					//toggle
+					if (api.getWebApp().getPlayerVisibility(senderUUID)) {
+						hideSelf(api, sender, senderUUID);
+					} else {
+						showSelf(api, sender, senderUUID);
+					}
 					return true;
 				}
 				if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("show")) {
-						api.getWebApp().setPlayerVisibility(senderUUID, true);
-						sender.sendMessage("You are now visible on the map");
+						showSelf(api, sender, senderUUID);
 						return true;
 					} else if (args[0].equalsIgnoreCase("hide")) {
-						api.getWebApp().setPlayerVisibility(senderUUID, false);
-						sender.sendMessage("You are now invisible on the map");
+						hideSelf(api, sender, senderUUID);
 						return true;
 					}
 				}
@@ -45,26 +47,27 @@ public class BMPC implements CommandExecutor, TabCompleter {
 			// === OTHER ===
 			Player targetPlayer = sender.getServer().getPlayer(args[args.length - 1]); //if the last argument is a player name
 			if (targetPlayer == null) {
-				if(othersAllowed(sender)) {
+				if (othersAllowed(sender)) {
 					sender.sendMessage(ChatColor.YELLOW + "Player not found");
 				} else {
 					noPermissionWarning(sender);
 				}
 				return true;
 			} else {
-				if(othersAllowed(sender)) {
-					UUID targetUUID = targetPlayer.getUniqueId();
+				if (othersAllowed(sender)) {
 					if (args.length == 1) {
-						//TODO: Toggle other
-						sender.sendMessage(ChatColor.YELLOW + "This command is not yet implemented. Please specify show/hide");
+						//toggle
+						if (api.getWebApp().getPlayerVisibility(targetPlayer.getUniqueId())) {
+							hideOther(api, sender, targetPlayer);
+						} else {
+							showOther(api, sender, targetPlayer);
+						}
 						return true;
 					} else if (args[0].equalsIgnoreCase("show")) {
-						api.getWebApp().setPlayerVisibility(targetUUID, true);
-						sender.sendMessage(targetPlayer.getDisplayName() + " is now visible on the map");
+						showOther(api, sender, targetPlayer);
 						return true;
 					} else if (args[0].equalsIgnoreCase("hide")) {
-						api.getWebApp().setPlayerVisibility(targetUUID, false);
-						sender.sendMessage(targetPlayer.getDisplayName() + " is now invisible on the map");
+						hideOther(api, sender, targetPlayer);
 						return true;
 					}
 				} else {
@@ -75,6 +78,26 @@ public class BMPC implements CommandExecutor, TabCompleter {
 		}
 
 		return false;
+	}
+
+	private static void showSelf(BlueMapAPI blueMapAPI, CommandSender sender, UUID senderUUID) {
+		blueMapAPI.getWebApp().setPlayerVisibility(senderUUID, true);
+		sender.sendMessage("You are now " + ChatColor.AQUA + "visible" + ChatColor.RESET + " on the map");
+	}
+
+	private static void hideSelf(BlueMapAPI blueMapAPI, CommandSender sender, UUID senderUUID) {
+		blueMapAPI.getWebApp().setPlayerVisibility(senderUUID, false);
+		sender.sendMessage("You are now " + ChatColor.GOLD + "invisible" + ChatColor.RESET + " on the map");
+	}
+
+	private static void showOther(BlueMapAPI api, @NotNull CommandSender sender, Player targetPlayer) {
+		api.getWebApp().setPlayerVisibility(targetPlayer.getUniqueId(), true);
+		sender.sendMessage(targetPlayer.getDisplayName() + " is now " + ChatColor.AQUA + "visible" + ChatColor.RESET + " on the map");
+	}
+
+	private static void hideOther(BlueMapAPI api, @NotNull CommandSender sender, Player targetPlayer) {
+		api.getWebApp().setPlayerVisibility(targetPlayer.getUniqueId(), false);
+		sender.sendMessage(targetPlayer.getDisplayName() + " is now " + ChatColor.GOLD + "invisible" + ChatColor.RESET + " on the map");
 	}
 
 	private void noPermissionWarning(CommandSender sender) {
@@ -93,7 +116,7 @@ public class BMPC implements CommandExecutor, TabCompleter {
 					|| args[0].equalsIgnoreCase("show")
 					|| args[0].equalsIgnoreCase("hide")
 					|| args[0].isBlank()) {
-				if(args.length <= 2) {
+				if (args.length <= 2) {
 					for (Player player : sender.getServer().getOnlinePlayers()) {
 						completions.add(player.getName());
 					}

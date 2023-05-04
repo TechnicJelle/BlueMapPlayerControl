@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.technicjelle</groupId>
-	<artifactId>bluemap-playercontrol</artifactId>
-	<version>1.0.0</version>
+	<artifactId>BlueMapPlayerControl</artifactId>
+	<version>1.1</version>
 	<packaging>jar</packaging>
 
 	<name>BlueMapPlayerControl</name>
@@ -77,7 +77,7 @@
 		<dependency>
 			<groupId>com.github.BlueMap-Minecraft</groupId>
 			<artifactId>BlueMapAPI</artifactId>
-			<version>v2.1.0</version>
+			<version>v2.5.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
