@@ -15,6 +15,8 @@ Simple [Paper](https://papermc.io/) plugin that allows you to show/hide players 
 | `/bmpc show [player]` | Makes the specified player visible   | `bmpc.others.show` (OP)   |
 | `/bmpc hide [player]` | Makes the specified player invisible | `bmpc.others.hide` (OP)   |
 
+ℹ️️ Supports `@a`, `@p`, `@r` and `@s` as player arguments.
+
 ## [Click here to download!](../../releases/latest)
 
 ## Support

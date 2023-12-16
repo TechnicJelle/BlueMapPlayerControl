@@ -1,11 +1,13 @@
 package com.technicjelle.bluemapplayercontrol.commands;
 
 import de.bluecolored.bluemap.api.BlueMapAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,16 +54,18 @@ public class BMPC implements CommandExecutor, TabCompleter {
 			}
 
 			// === OTHER ===
-			Player targetPlayer = sender.getServer().getPlayer(args[args.length - 1]); //if the last argument is a player name
-			if (targetPlayer == null) {
-				if (othersAllowed(sender)) {
-					sender.sendMessage(ChatColor.YELLOW + "Player not found");
-				} else {
-					noPermissionWarning(sender);
-				}
-				return true;
+			if (!othersAllowed(sender)) {
+				sender.sendMessage(ChatColor.RED + "You are don't have permission to change the visibility of others");
 			} else {
-				if (othersAllowed(sender)) {
+				String targetName = args[args.length - 1];
+				List<Entity> targets = Bukkit.selectEntities(sender, targetName);
+				if (targets.isEmpty()) {
+					sender.sendMessage(ChatColor.YELLOW + "Player \"" + targetName + "\" not found");
+					return true;
+				}
+				for (Entity target : targets) {
+					if (!(target instanceof Player)) continue;
+					Player targetPlayer = (Player) target;
 					if (args.length == 1) {
 						//toggle
 						if (api.getWebApp().getPlayerVisibility(targetPlayer.getUniqueId())) {
@@ -69,19 +73,14 @@ public class BMPC implements CommandExecutor, TabCompleter {
 						} else {
 							showOther(api, sender, targetPlayer);
 						}
-						return true;
 					} else if (args[0].equalsIgnoreCase("show")) {
 						showOther(api, sender, targetPlayer);
-						return true;
 					} else if (args[0].equalsIgnoreCase("hide")) {
 						hideOther(api, sender, targetPlayer);
-						return true;
 					}
-				} else {
-					noPermissionWarning(sender);
-					return true;
 				}
 			}
+			return true;
 		}
 
 		return false;
@@ -107,10 +106,6 @@ public class BMPC implements CommandExecutor, TabCompleter {
 		sender.sendMessage(targetPlayer.getDisplayName() + " is now " + ChatColor.GOLD + "invisible" + ChatColor.RESET + " on the map");
 	}
 
-	private void noPermissionWarning(CommandSender sender) {
-		sender.sendMessage(ChatColor.RED + "You are don't have permission to change the visibility of others");
-	}
-
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		List<String> completions = new ArrayList<>();
@@ -132,6 +127,10 @@ public class BMPC implements CommandExecutor, TabCompleter {
 					for (Player player : sender.getServer().getOnlinePlayers()) {
 						completions.add(player.getName());
 					}
+					completions.add("@a");
+					completions.add("@p");
+					completions.add("@r");
+					completions.add("@s");
 				}
 			}
 		}
