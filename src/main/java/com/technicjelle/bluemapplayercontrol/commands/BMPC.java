@@ -27,7 +27,8 @@ public class BMPC implements CommandExecutor, TabCompleter {
 
 			// === SELF ===
 			if (sender instanceof Player) { // only players can self
-				UUID senderUUID = sender.getServer().getPlayerUniqueId(sender.getName());
+				Player player = (Player) sender;
+				UUID senderUUID = player.getUniqueId();
 				if (args.length == 0) {
 					//toggle
 					if (api.getWebApp().getPlayerVisibility(senderUUID)) {
@@ -107,7 +108,7 @@ public class BMPC implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
 		List<String> completions = new ArrayList<>();
 		if (args.length == 1) {
 			completions.add("show");
