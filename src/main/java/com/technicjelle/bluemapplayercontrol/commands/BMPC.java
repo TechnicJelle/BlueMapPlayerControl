@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("UnstableApiUsage")
 public class BMPC implements CommandExecutor, TabCompleter {
 
 	public BMPC() {
@@ -26,8 +27,7 @@ public class BMPC implements CommandExecutor, TabCompleter {
 			BlueMapAPI api = BlueMapAPI.getInstance().get();
 
 			// === SELF ===
-			if (sender instanceof Player) { // only players can self
-				Player player = (Player) sender;
+			if (sender instanceof Player player) { // only players can self
 				UUID senderUUID = player.getUniqueId();
 				if (args.length == 0) {
 					//toggle
@@ -65,8 +65,7 @@ public class BMPC implements CommandExecutor, TabCompleter {
 					return true;
 				}
 				for (Entity target : targets) {
-					if (!(target instanceof Player)) continue;
-					Player targetPlayer = (Player) target;
+					if (!(target instanceof Player targetPlayer)) continue;
 					if (args.length == 1) {
 						//toggle
 						if (api.getWebApp().getPlayerVisibility(targetPlayer.getUniqueId())) {

@@ -6,13 +6,13 @@
 
 	<groupId>com.technicjelle</groupId>
 	<artifactId>BlueMapPlayerControl</artifactId>
-	<version>1.5</version>
+	<version>1.6</version>
 	<packaging>jar</packaging>
 
 	<name>BlueMapPlayerControl</name>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -21,7 +21,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.13.0</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -30,12 +30,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.4</version>
+				<version>3.6.0</version>
 				<configuration>
 					<relocations>
 						<relocation>
+							<pattern>com.technicjelle.UpdateChecker</pattern>
+							<shadedPattern>com.technicjelle.bluemapplayercontrol.shadow.UpdateChecker</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>org.bstats</pattern>
-							<shadedPattern>com.technicjelle.bluemapplayercontrol</shadedPattern>
+							<shadedPattern>com.technicjelle.bluemapplayercontrol.shadow.bstats</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
@@ -62,7 +66,7 @@
 
 	<repositories>
 		<repository>
-			<id>papermc-repo</id>
+			<id>papermc</id>
 			<url>https://repo.papermc.io/repository/maven-public/</url>
 		</repository>
 		<repository>
@@ -70,16 +74,18 @@
 			<url>https://oss.sonatype.org/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
+			<id>bluecolored-releases</id>
+			<name>BlueColored Repository</name>
+			<url>https://repo.bluecolored.de/releases</url>
 		</repository>
 	</repositories>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.github.TechnicJelle</groupId>
-			<artifactId>UpdateCheckerJava</artifactId>
-			<version>v2.3</version>
+			<groupId>com.technicjelle</groupId>
+			<artifactId>UpdateChecker</artifactId>
+			<version>2.5.1</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.destroystokyo.paper</groupId>
@@ -88,9 +94,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.BlueMap-Minecraft</groupId>
-			<artifactId>BlueMapAPI</artifactId>
-			<version>v2.6.1</version>
+			<groupId>de.bluecolored</groupId>
+			<artifactId>bluemap-api</artifactId>
+			<version>2.7.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -102,7 +108,7 @@
 		<dependency>
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-bukkit</artifactId>
-			<version>3.0.2</version>
+			<version>3.1.0</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
