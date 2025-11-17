@@ -5,6 +5,8 @@
 
 Simple [Paper](https://papermc.io/) plugin that allows you to show/hide players on [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap/)
 
+![demonstration](.github/readme_assets/demo.gif)
+
 ## Commands
 | Command               | Usage                                | Permission                |
 |-----------------------|--------------------------------------|---------------------------|
